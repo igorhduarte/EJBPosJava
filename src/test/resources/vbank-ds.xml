@@ -1,4 +1,4 @@
-<datasources xmlns="http://www.jboss.org/ironjacamar/schema" 
+<!--<datasources xmlns="http://www.jboss.org/ironjacamar/schema" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jboss.org/ironjacamar/schema 
 	http://docs.jboss.org/ironjacamar/schema/datasources_1_0.xsd"> <datasource 
 	jndi-name="java:jboss/datasources/sabium" pool-name="SabiumPool" enabled="true" 
@@ -7,8 +7,9 @@
 	</security> </datasource> <drivers> <driver name="PostGres" module="org.postgresql"> 
 	<datasource-class>org.postgresql.ds.PGPoolingDataSource</datasource-class> 
 	</driver> </drivers> </datasources> 
+-->
 
-<!--<datasources xmlns="http://www.jboss.org/ironjacamar/schema"
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.jboss.org/ironjacamar/schema http://docs.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
 	<datasource jndi-name="java:jboss/datasources/vbank"
@@ -21,4 +22,4 @@
 			<password>sa</password>
 		</security>
 	</datasource>
-</datasources> -->
+</datasources> 
