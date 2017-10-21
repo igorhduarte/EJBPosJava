@@ -2,7 +2,15 @@ package br.com.rp.domain;
 
 import java.util.Calendar;
 
-public class Configuracao {
+import javax.persistence.Entity;
+
+@Entity
+public class Configuracao extends BaseEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private Calendar horarioMinimoMovimentacao;
 	private Calendar horarioMaximoMovimentacao;

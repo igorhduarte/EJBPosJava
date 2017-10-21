@@ -1,6 +1,14 @@
 package br.com.rp.domain;
 
-public class Usuario {
+import javax.persistence.Entity;
+
+@Entity
+public class Usuario extends BaseEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private Pessoa pessoa;
 	private String login;

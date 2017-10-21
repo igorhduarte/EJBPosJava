@@ -1,5 +1,6 @@
 package br.com.rp.domain;
 
+
 public class Cliente extends Pessoa {
 
 	private Pessoa pessoa;

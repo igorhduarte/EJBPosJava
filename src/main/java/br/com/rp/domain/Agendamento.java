@@ -2,7 +2,15 @@ package br.com.rp.domain;
 
 import java.util.Date;
 
-public class Agendamento {
+import javax.persistence.Entity;
+
+@Entity
+public class Agendamento extends BaseEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private Movimentacao movimentacao;
 	private Date data;

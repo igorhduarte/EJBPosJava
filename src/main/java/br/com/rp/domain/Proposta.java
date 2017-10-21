@@ -2,8 +2,16 @@ package br.com.rp.domain;
 
 import java.math.BigDecimal;
 
-public class Proposta {
+import javax.persistence.Entity;
 
+@Entity
+public class Proposta extends BaseEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Conta conta;
 	private BigDecimal limite;
 	private BigDecimal salario;
