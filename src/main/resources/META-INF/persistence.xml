@@ -5,7 +5,7 @@
 	version="2.1">
 	<persistence-unit name="vbankpu" transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>java:/vbank</jta-data-source>
+		<jta-data-source>vbank</jta-data-source>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
