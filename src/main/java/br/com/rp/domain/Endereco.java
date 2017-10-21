@@ -1,6 +1,14 @@
 package br.com.rp.domain;
 
-public class Endereco {
+import javax.persistence.Entity;
+
+@Entity
+public class Endereco extends BaseEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private String logradouro;
 	private String numero;

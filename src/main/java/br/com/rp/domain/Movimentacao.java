@@ -2,7 +2,15 @@ package br.com.rp.domain;
 
 import java.util.Date;
 
-public class Movimentacao {
+import javax.persistence.Entity;
+
+@Entity
+public class Movimentacao extends BaseEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private Date data;
 	private String tipoMovimentacao;

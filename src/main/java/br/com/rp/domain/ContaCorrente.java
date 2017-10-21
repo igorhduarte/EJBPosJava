@@ -4,6 +4,11 @@ import java.math.BigDecimal;
 
 public class ContaCorrente extends Conta {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private BigDecimal saldo;
 
 	public BigDecimal getSaldo() {

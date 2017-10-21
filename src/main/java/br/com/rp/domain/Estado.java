@@ -1,7 +1,12 @@
 package br.com.rp.domain;
 
-public class Estado extends BaseEntity{
-	
+public class Estado extends BaseEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String nome;
 	private String sigla;
 
@@ -20,7 +25,5 @@ public class Estado extends BaseEntity{
 	public void setSigla(String sigla) {
 		this.sigla = sigla;
 	}
-	
-	
+
 }
-	

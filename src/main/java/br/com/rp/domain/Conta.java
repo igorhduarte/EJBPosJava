@@ -1,6 +1,14 @@
 package br.com.rp.domain;
 
-public class Conta {
+import javax.persistence.Entity;
+
+@Entity
+public class Conta extends BaseEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private String numero;
 	private String agencia;

@@ -1,6 +1,14 @@
 package br.com.rp.domain;
 
-public class Cidade {
+import javax.persistence.Entity;
+
+@Entity
+public class Cidade extends BaseEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private String nome;
 	private EstadoEnum estado;

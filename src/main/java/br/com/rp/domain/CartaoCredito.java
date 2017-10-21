@@ -2,7 +2,15 @@ package br.com.rp.domain;
 
 import java.math.BigDecimal;
 
-public class CartaoCredito {
+import javax.persistence.Entity;
+
+@Entity
+public class CartaoCredito extends BaseEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private BigDecimal limite;
 	private BigDecimal totalAberto;
