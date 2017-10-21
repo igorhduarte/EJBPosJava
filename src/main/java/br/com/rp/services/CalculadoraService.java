@@ -1,10 +1,7 @@
 package br.com.rp.services;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.OptionalDouble;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -13,7 +10,6 @@ import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 
-import br.com.rp.domain.Estado;
 import br.com.rp.domain.MathResult;
 
 import com.google.common.collect.Lists;
