@@ -1,6 +1,6 @@
 package br.com.rp.domain;
 
-public class Conta {
+public class Conta extends BaseEntity {
 
 	private String numero;
 	private String agencia;
