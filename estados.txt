@@ -1,0 +1,3 @@
+PR;Paraná
+SP;São Paulo
+RJ;Rio de Janeiro
