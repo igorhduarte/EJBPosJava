@@ -1,6 +1,7 @@
 package br.com.rp.domain;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Conta extends BaseEntity {
@@ -10,8 +11,13 @@ public class Conta extends BaseEntity {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@NotNull
 	private String numero;
+	
+	@NotNull
 	private String agencia;
+	
+	@NotNull
 	private Cliente cliente;
 
 	public String getNumero() {

@@ -13,7 +13,7 @@ public class Usuario extends BaseEntity {
 	private Pessoa pessoa;
 	private String login;
 	private String senha;
-	private String tipoUsuario;
+	private TipoUsuario tipoUsuario;
 
 	public Pessoa getPessoa() {
 		return pessoa;
@@ -39,11 +39,11 @@ public class Usuario extends BaseEntity {
 		this.senha = senha;
 	}
 
-	public String getTipoUsuario() {
+	public TipoUsuario getTipoUsuario() {
 		return tipoUsuario;
 	}
 
-	public void setTipoUsuario(String tipoUsuario) {
+	public void setTipoUsuario(TipoUsuario tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
 

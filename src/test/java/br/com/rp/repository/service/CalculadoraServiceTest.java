@@ -14,7 +14,6 @@ import br.com.rp.AbstractTest;
 import br.com.rp.domain.MathResult;
 import br.com.rp.services.CalculadoraService;
 
-
 public class CalculadoraServiceTest  extends AbstractTest{
 
 	@EJB

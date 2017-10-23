@@ -3,6 +3,7 @@ package br.com.rp.domain;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Proposta extends BaseEntity {
@@ -11,10 +12,17 @@ public class Proposta extends BaseEntity {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
+	@NotNull
 	private Conta conta;
+
+	@NotNull
 	private BigDecimal limite;
+
+	@NotNull
 	private BigDecimal salario;
+
+	private Boolean aceita;
 
 	public Conta getConta() {
 		return conta;
@@ -38,6 +46,14 @@ public class Proposta extends BaseEntity {
 
 	public void setSalario(BigDecimal salario) {
 		this.salario = salario;
+	}
+
+	public Boolean getAceita() {
+		return aceita;
+	}
+
+	public void setAceita(Boolean aceita) {
+		this.aceita = aceita;
 	}
 
 }
