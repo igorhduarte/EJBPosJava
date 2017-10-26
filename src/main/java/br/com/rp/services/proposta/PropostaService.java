@@ -1,15 +1,17 @@
 package br.com.rp.services.proposta;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 
 import br.com.rp.domain.Proposta;
+import br.com.rp.domain.TipoUsuario;
 import br.com.rp.domain.Usuario;
-import br.com.rp.repository.proposta.PropostaRepository;
-import br.com.rp.repository.usuario.UsuarioRepository;
+import br.com.rp.repository.PropostaRepository;
+import br.com.rp.repository.UsuarioRepository;
 
 @Stateless
 public class PropostaService {
@@ -27,26 +29,34 @@ public class PropostaService {
 	}
 	
 	@Interceptors(PropostaInterceptor.class)
-	public List<Proposta> listarPropostasAceitas(Usuario usuario) {
+	public List<Proposta> listarPropostasAceitas(Usuario usuarioLogado) {
 		
 		return propostaRepository.findPropostasAceitas();
 	}
 	
 	@Interceptors(PropostaInterceptor.class)
-	public List<Proposta> listarPropostasRejeitadas(Usuario usuario) {
+	public List<Proposta> listarPropostasRejeitadas(Usuario usuarioLogado) {
 		
 		return propostaRepository.findPropostasRejeitadas();
 	}
 
-	public Proposta criarProposta(Proposta proposta) {
+	public Proposta criarProposta(Usuario usuarioLogado, Proposta proposta) {
 
 		return propostaRepository.save(proposta);
 	}
 
-	public void aceitarProposta(Proposta proposta) {
+	public String geradorSenha() {
+		return UUID.randomUUID().toString().substring(0, 8);
+	}
+	
+	@Interceptors(PropostaInterceptor.class)
+	public void aceitarProposta(Usuario usuarioLogado, Proposta proposta) {
 
 		Usuario usuario = new Usuario();
-		usuario.setPessoa(proposta.getConta().getCliente().getPessoa());
+		usuario.setPessoa(proposta.getPessoa());
+		usuario.setTipoUsuario(TipoUsuario.CLIENTE);
+		usuario.setLogin(proposta.getPessoa().getCpf());
+		usuario.setSenha(geradorSenha());
 
 		try {
 			proposta.setAceita(Boolean.TRUE);
@@ -61,7 +71,7 @@ public class PropostaService {
 	public void rejeitarProposta(Proposta proposta) {
 
 		Usuario usuario = new Usuario();
-		usuario.setPessoa(proposta.getConta().getCliente().getPessoa());
+//		usuario.setPessoa(proposta.getCliente());
 
 		try {
 			proposta.setAceita(Boolean.FALSE);

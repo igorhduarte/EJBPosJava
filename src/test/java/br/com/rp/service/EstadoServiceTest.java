@@ -1,4 +1,4 @@
-package br.com.rp.repository.service;
+package br.com.rp.service;
 import java.util.List;
 
 import javax.ejb.EJB;

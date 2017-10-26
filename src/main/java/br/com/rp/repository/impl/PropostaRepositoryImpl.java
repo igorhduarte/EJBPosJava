@@ -1,4 +1,4 @@
-package br.com.rp.repository.impl.proposta;
+package br.com.rp.repository.impl;
 
 import java.util.List;
 
@@ -7,8 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import br.com.rp.domain.Proposta;
-import br.com.rp.repository.impl.AbstractRepositoryImpl;
-import br.com.rp.repository.proposta.PropostaRepository;
+import br.com.rp.repository.PropostaRepository;
 
 @Stateless
 public class PropostaRepositoryImpl extends AbstractRepositoryImpl<Proposta> implements PropostaRepository {

@@ -19,8 +19,9 @@ import br.com.rp.domain.Log;
 import br.com.rp.repository.LogRepositoryTest;
 import br.com.rp.repository.Repository;
 import br.com.rp.repository.impl.AbstractRepositoryImpl;
-import br.com.rp.repository.service.LogServiceTest;
+import br.com.rp.service.proposta.PropostaServiceTest;
 import br.com.rp.services.LogService;
+import br.com.rp.services.proposta.PropostaService;
 
 @RunWith(Arquillian.class)
 public abstract class AbstractTest {
@@ -43,13 +44,15 @@ public abstract class AbstractTest {
 		File[] deps = Maven.resolver().loadPomFromFile("pom.xml").importRuntimeAndTestDependencies().resolve()
 				.withTransitivity().asFile();
 
-		WebArchive archive = ShrinkWrap.create(WebArchive.class, "vbank.war").addPackages(false, Log.class.getPackage())
+		WebArchive archive = ShrinkWrap.create(WebArchive.class, "vbank.war")
+				.addPackages(true, Log.class.getPackage())
 				.addPackages(true, Repository.class.getPackage())
 				.addPackages(true, AbstractRepositoryImpl.class.getPackage())
 				.addPackages(true, AbstractTest.class.getPackage())
 				.addPackages(true, LogRepositoryTest.class.getPackage())
 				.addPackages(true, LogService.class.getPackage())
-				.addPackages(true, LogServiceTest.class.getPackage())
+				.addPackages(true, PropostaService.class.getPackage())
+				.addPackages(true, PropostaServiceTest.class.getPackage())
 				.addAsResource("test-persistence.xml", "META-INF/persistence.xml")
 				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml").addAsWebInfResource("vbank-ds.xml")
 				.addAsLibraries(deps);

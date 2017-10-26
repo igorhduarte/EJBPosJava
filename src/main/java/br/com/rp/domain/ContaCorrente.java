@@ -2,6 +2,11 @@ package br.com.rp.domain;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class ContaCorrente extends Conta {
 
 	/**

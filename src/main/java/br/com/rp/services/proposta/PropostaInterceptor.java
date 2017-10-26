@@ -5,6 +5,7 @@ import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
 import br.com.rp.domain.TipoUsuario;
+import br.com.rp.domain.Usuario;
 
 @Interceptor
 public class PropostaInterceptor {
@@ -12,7 +13,8 @@ public class PropostaInterceptor {
 	@AroundInvoke
 	public Object permiteListarPropostas(InvocationContext ic) throws Exception {
 		
-		if (ic.getParameters()[0] == TipoUsuario.GERENTE_CONTAS) {
+		Usuario usuario = (Usuario) ic.getParameters()[0];
+		if (usuario.getTipoUsuario() == TipoUsuario.GERENTE_CONTAS) {
 			
 			return ic.proceed();	
 		}

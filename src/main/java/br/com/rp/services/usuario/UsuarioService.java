@@ -4,7 +4,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import br.com.rp.domain.Usuario;
-import br.com.rp.repository.usuario.UsuarioRepository;
+import br.com.rp.repository.UsuarioRepository;
 
 @Stateless
 public class UsuarioService {
@@ -15,6 +15,11 @@ public class UsuarioService {
 	public Usuario criarUsuario(Usuario usuario) {
 
 		return repository.save(usuario);
+	}
+	
+	public Usuario getUsuarioByLogin(String login) {
+		
+		return repository.getUsuarioByLogin(login);
 	}
 
 }

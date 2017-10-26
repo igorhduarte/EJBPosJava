@@ -1,6 +1,7 @@
 package br.com.rp.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -13,12 +14,12 @@ public class Conta extends BaseEntity {
 
 	@NotNull
 	private String numero;
-	
+
 	@NotNull
 	private String agencia;
-	
-	@NotNull
-	private Cliente cliente;
+
+	@OneToOne
+	private Pessoa pessoa;
 
 	public String getNumero() {
 		return numero;
@@ -36,12 +37,12 @@ public class Conta extends BaseEntity {
 		this.agencia = agencia;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	public Pessoa getPessoa() {
+		return pessoa;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
 	}
 
 }

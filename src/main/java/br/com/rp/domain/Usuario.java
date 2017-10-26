@@ -1,8 +1,12 @@
 package br.com.rp.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@Table
 public class Usuario extends BaseEntity {
 
 	/**
@@ -10,9 +14,17 @@ public class Usuario extends BaseEntity {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@NotNull
+	@OneToOne
 	private Pessoa pessoa;
+	
+	@NotNull
 	private String login;
+	
+	@NotNull
 	private String senha;
+	
+	@NotNull
 	private TipoUsuario tipoUsuario;
 
 	public Pessoa getPessoa() {

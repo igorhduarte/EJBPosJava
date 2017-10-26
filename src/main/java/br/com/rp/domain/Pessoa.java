@@ -1,8 +1,12 @@
 package br.com.rp.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@Table
 public class Pessoa extends BaseEntity {
 
 	/**
@@ -10,9 +14,17 @@ public class Pessoa extends BaseEntity {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@NotNull
+	@OneToOne
 	private Endereco endereco;
+	
+	@NotNull
 	private String nome;
+	
+	@NotNull
 	private String cpf;
+	
+	@NotNull
 	private String email;
 
 	public Endereco getEndereco() {
