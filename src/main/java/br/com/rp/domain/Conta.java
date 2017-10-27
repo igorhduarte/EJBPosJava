@@ -1,6 +1,10 @@
 package br.com.rp.domain;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
@@ -20,6 +24,11 @@ public class Conta extends BaseEntity {
 
 	@OneToOne
 	private Pessoa pessoa;
+
+	@OneToMany
+	private List<Movimentacao> movimentacoes;
+
+	private BigDecimal saldo;
 
 	public String getNumero() {
 		return numero;
@@ -43,6 +52,22 @@ public class Conta extends BaseEntity {
 
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
+	}
+
+	public List<Movimentacao> getMovimentacoes() {
+		return movimentacoes;
+	}
+
+	public void setMovimentacoes(List<Movimentacao> movimentacoes) {
+		this.movimentacoes = movimentacoes;
+	}
+
+	public BigDecimal getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(BigDecimal saldo) {
+		this.saldo = saldo;
 	}
 
 }

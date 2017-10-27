@@ -29,9 +29,12 @@ public class PropostaEnvioEmail implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
+        
+		TextMessage m = (TextMessage) message;  
+        
 		try {
 
-			respond("Proposta aceita");
+			respond(m.getText());
 		} catch (JMSException ex) {
 			
 			throw new RuntimeException(ex);

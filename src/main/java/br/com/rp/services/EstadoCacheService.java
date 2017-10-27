@@ -28,10 +28,10 @@ public class EstadoCacheService {
 			Files.readAllLines(Paths.get("D:/PosJava/EJB/jee-blank-master/estados.txt"),charset).stream()
 					.forEach(linha -> {
 						String[] estado = linha.split(";");
-						Estado uf = new Estado();
-						uf.setSigla(estado[0]);
-						uf.setNome(estado[1]);
-						estados.put(uf.getSigla(), uf);
+//						Estado uf = new Estado();
+//						uf.setSigla(estado[0]);
+//						uf.setNome(estado[1]);
+//						estados.put(uf.getSigla(), uf);
 					});
 			
 		} catch (IOException e){

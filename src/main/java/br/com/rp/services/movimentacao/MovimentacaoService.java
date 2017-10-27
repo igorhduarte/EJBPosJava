@@ -1,16 +1,38 @@
 package br.com.rp.services.movimentacao;
 
-import javax.ejb.Stateless;
-import javax.interceptor.Interceptors;
+import java.util.List;
 
-import br.com.rp.services.ContaCorrenteDesempenhoInterceptor;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
+import br.com.rp.domain.Conta;
+import br.com.rp.domain.Movimentacao;
+import br.com.rp.domain.TipoMovimentacao;
+import br.com.rp.repository.MovimentacaoRepository;
+import br.com.rp.repository.impl.AbstractRepositoryImpl;
 
 @Stateless
-@Interceptors ({ContaCorrenteDesempenhoInterceptor.class})
-public class MovimentacaoService {
+public class MovimentacaoService extends AbstractRepositoryImpl<Movimentacao> {
+
+	@EJB
+	private MovimentacaoRepository movimentacaoRepository;
 	
-	public void sacar(){
-		
+	public MovimentacaoService() {
+		super(Movimentacao.class);
 	}
+	
+	public List<Movimentacao> somenteDebitos(Conta conta) {
+		return movimentacaoRepository.somenteByTipoMovimentacao(conta, TipoMovimentacao.DEBITO);
+	}
+	
+	public List<Movimentacao> somenteDepositos(Conta conta) {
+		return movimentacaoRepository.somenteByTipoMovimentacao(conta, TipoMovimentacao.DEPOSITO);
+	}
+	
+	public List<Movimentacao> somenteSaques(Conta conta) {
+		return movimentacaoRepository.somenteByTipoMovimentacao(conta, TipoMovimentacao.SAQUE);
+	}
+
+	
 
 }

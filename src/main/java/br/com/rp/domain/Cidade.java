@@ -22,7 +22,7 @@ public class Cidade extends BaseEntity {
 	private String nome;
 
 	@NotNull
-	private EstadoEnum estado;
+	private Estado estado;
 
 	@OneToMany(mappedBy = "cidade", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Endereco> enderecos;
@@ -35,11 +35,11 @@ public class Cidade extends BaseEntity {
 		this.nome = nome;
 	}
 
-	public EstadoEnum getEstado() {
+	public Estado getEstado() {
 		return estado;
 	}
 
-	public void setEstado(EstadoEnum estado) {
+	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
 

@@ -14,7 +14,7 @@ import org.junit.Test;
 import br.com.rp.AbstractTest;
 import br.com.rp.domain.Cidade;
 import br.com.rp.domain.Endereco;
-import br.com.rp.domain.EstadoEnum;
+import br.com.rp.domain.Estado;
 import br.com.rp.domain.Pessoa;
 import br.com.rp.domain.Proposta;
 import br.com.rp.domain.TipoUsuario;
@@ -46,7 +46,7 @@ public class PropostaServiceTest extends AbstractTest {
 	public void salvarPropostas() {
 
 		Cidade cidade = new Cidade();
-		cidade.setEstado(EstadoEnum.PARANA);
+		cidade.setEstado(Estado.PARANA);
 		cidade.setNome("Maringá");
 
 		Cidade cidadeSaved = cidadeService.save(cidade);
@@ -84,7 +84,7 @@ public class PropostaServiceTest extends AbstractTest {
 	public void aceitarPropostaSemPermissao() {
 
 		Cidade cidade = new Cidade();
-		cidade.setEstado(EstadoEnum.PARANA);
+		cidade.setEstado(Estado.PARANA);
 		cidade.setNome("Maringá");
 
 		Cidade cidadeSaved = cidadeService.save(cidade);
@@ -125,7 +125,7 @@ public class PropostaServiceTest extends AbstractTest {
 	public void aceitarPropostas() {
 		
 		Cidade cidade = new Cidade();
-		cidade.setEstado(EstadoEnum.PARANA);
+		cidade.setEstado(Estado.PARANA);
 		cidade.setNome("Maringá");
 		
 		Cidade cidadeSaved = cidadeService.save(cidade);

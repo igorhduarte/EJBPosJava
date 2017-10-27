@@ -25,10 +25,10 @@ public class EstadoService {
 			Files.readAllLines(Paths.get("D:/estado/estado.txt"), charset).stream()
 			.forEach(x ->{
 				String[] estado = x.split(";");
-				Estado uf = new Estado();
-				uf.setSigla(estado[0]);
-				uf.setNome(estado[1]);
-				estados.put(uf.getSigla(), uf);
+//				Estado uf = new Estado();
+//				uf.setSigla(estado[0]);
+//				uf.setNome(estado[1]);
+//				estados.put(uf.getSigla(), uf);
 			});
 			
 		}catch(Exception ex){

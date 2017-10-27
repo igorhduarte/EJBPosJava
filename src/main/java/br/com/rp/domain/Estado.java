@@ -1,14 +1,29 @@
 package br.com.rp.domain;
 
-public class Estado extends BaseEntity {
+public enum Estado {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	PARANA("PR", "Paraná", "SUL"), 
+	SAO_PAULO("SP", "São Paulo", "SUDESTE"), 
+	SANTA_CATARINA("SC", "Santa Catarina", "SUL"), 
+	PERNAMBUCO("PE", "Pernambuco", "NORDESTE");
 
-	private String nome;
+	private Estado(String sigla, String nome, String regiao) {
+		this.sigla = sigla;
+		this.nome = nome;
+		this.regiao = regiao;
+	}
+
 	private String sigla;
+	private String nome;
+	private String regiao;
+
+	public String getSigla() {
+		return sigla;
+	}
+
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
+	}
 
 	public String getNome() {
 		return nome;
@@ -18,12 +33,12 @@ public class Estado extends BaseEntity {
 		this.nome = nome;
 	}
 
-	public String getSigla() {
-		return sigla;
+	public String getRegiao() {
+		return regiao;
 	}
 
-	public void setSigla(String sigla) {
-		this.sigla = sigla;
+	public void setRegiao(String regiao) {
+		this.regiao = regiao;
 	}
 
 }

@@ -1,4 +1,4 @@
-package br.com.rp.services.conta;
+package br.com.rp.services.movimentacao;
 
 import br.com.rp.domain.Conta;
 import br.com.rp.repository.impl.AbstractRepositoryImpl;
