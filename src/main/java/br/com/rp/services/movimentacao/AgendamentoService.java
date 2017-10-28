@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 
 import br.com.rp.domain.Agendamento;
+import br.com.rp.domain.Usuario;
 import br.com.rp.repository.AgendamentoRepository;
 import br.com.rp.repository.MovimentacaoRepository;
 import br.com.rp.repository.impl.AbstractRepositoryImpl;
@@ -26,12 +27,12 @@ public class AgendamentoService extends AbstractRepositoryImpl<Agendamento> {
 	}
 	
 	@Interceptors({LogInterceptor.class})
-	public Agendamento criarAgendamento(Agendamento agendamento) {
+	public Agendamento criarAgendamento(Usuario usuarioLogado, Agendamento agendamento) {
 		return agendamentoRepository.save(agendamento);
 	}
 	
 	@Interceptors({LogInterceptor.class})
-	public void cancelarAgendamento(Agendamento agendamento) {
+	public void cancelarAgendamento(Usuario usuarioLogado, Agendamento agendamento) {
 		agendamento.setCancelado(true);
 		agendamento.setDataCancelamento(new Date());
 		

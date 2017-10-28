@@ -15,6 +15,7 @@ import br.com.rp.repository.ContaRepository;
 import br.com.rp.repository.PropostaRepository;
 import br.com.rp.repository.UsuarioRepository;
 import br.com.rp.repository.impl.LogInterceptor;
+import br.com.rp.services.movimentacao.PermissaoGerenteContasInterceptor;
 
 @Stateless
 public class PropostaService {
@@ -28,25 +29,36 @@ public class PropostaService {
 	@EJB
 	private ContaRepository contaRepository;
 
-	@Interceptors(PropostaInterceptor.class)
+	@Interceptors({PermissaoGerenteContasInterceptor.class})
 	public List<Proposta> listarPropostas(Usuario usuario) {
 
 		return propostaRepository.getAll();
 	}
 	
-	@Interceptors({LogInterceptor.class, PropostaInterceptor.class})
+	@Interceptors({LogInterceptor.class,PermissaoGerenteContasInterceptor.class})
 	public List<Proposta> listarPropostasAceitas(Usuario usuarioLogado) {
 		
 		return propostaRepository.findPropostasAceitas();
 	}
 	
-	@Interceptors({LogInterceptor.class, PropostaInterceptor.class})
+	@Interceptors({LogInterceptor.class,PermissaoGerenteContasInterceptor.class})
 	public List<Proposta> listarPropostasRejeitadas(Usuario usuarioLogado) {
 		
 		return propostaRepository.findPropostasRejeitadas();
 	}
+	
+	@Interceptors({LogInterceptor.class,PermissaoGerenteContasInterceptor.class})
+	public List<Proposta> listarPropostasAceitasPorRegiao(Usuario usuarioLogado, String regiao) {
+		
+		return propostaRepository.findPropostasAceitasPorRegiao(regiao);
+	}
+	
+	@Interceptors({LogInterceptor.class,PermissaoGerenteContasInterceptor.class})
+	public List<Proposta> listarPropostasRejeitadasPorRegiao(Usuario usuarioLogado, String regiao) {
+		
+		return propostaRepository.findPropostasRejeitadasPorRegiao(regiao);
+	}
 
-	@Interceptors(LogInterceptor.class)
 	public Proposta criarProposta(Proposta proposta) {
 
 		return propostaRepository.save(proposta);
@@ -56,7 +68,7 @@ public class PropostaService {
 		return UUID.randomUUID().toString().substring(0, 8);
 	}
 	
-	@Interceptors({LogInterceptor.class, PropostaInterceptor.class})
+	@Interceptors({LogInterceptor.class,PermissaoGerenteContasInterceptor.class})
 	public void aceitarProposta(Usuario usuarioLogado, Proposta proposta) {
 
 		Usuario usuario = new Usuario();
@@ -93,14 +105,14 @@ public class PropostaService {
 
 	}
 
-	@Interceptors(LogInterceptor.class)
-	public void rejeitarProposta(Proposta proposta, String justificativa) {
+	@Interceptors({LogInterceptor.class,PermissaoGerenteContasInterceptor.class})
+	public void rejeitarProposta(Usuario usuarioLogado, Proposta proposta, String justificativa) {
 
 		StringBuilder msg = new StringBuilder("Sua proposta não foi aceita ");
 		msg.append(justificativa);
 
 		PropostaEnvioEmail email = new PropostaEnvioEmail();
-		email.send(proposta.getPessoa().getEmail(), "Bem vindo ao VBank", msg.toString());
+		email.send(proposta.getPessoa().getEmail(), "Proposta Rejeitada", msg.toString());
 		
 		try {
 			proposta.setAceita(Boolean.FALSE);

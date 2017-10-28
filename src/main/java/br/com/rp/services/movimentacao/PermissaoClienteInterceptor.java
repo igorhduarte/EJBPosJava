@@ -8,14 +8,14 @@ import br.com.rp.domain.TipoUsuario;
 import br.com.rp.domain.Usuario;
 
 @Interceptor
-public class IntegracaoInterceptor {
+public class PermissaoClienteInterceptor {
 
 	@AroundInvoke
 	public Object permicaoIntegracao(InvocationContext ic) throws Exception {
 
 		Usuario usuarioLogado = (Usuario) ic.getParameters()[0];
 		
-		if (usuarioLogado.getTipoUsuario().equals(TipoUsuario.GERENTE_OPERACAO)) {
+		if (usuarioLogado.getTipoUsuario().equals(TipoUsuario.CLIENTE)) {
 			ic.proceed();
 		}
 		

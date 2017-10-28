@@ -4,6 +4,7 @@ public enum TipoUsuario {
 	
 	GERENTE_OPERACAO,
 	GERENTE_CONTAS,
-	CLIENTE
+	CLIENTE,
+	GERENTE_SEGURANCA
 
 }

@@ -33,6 +33,4 @@ public class MovimentacaoService extends AbstractRepositoryImpl<Movimentacao> {
 		return movimentacaoRepository.somenteByTipoMovimentacao(conta, TipoMovimentacao.SAQUE);
 	}
 
-	
-
 }

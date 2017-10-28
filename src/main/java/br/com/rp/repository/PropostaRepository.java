@@ -10,4 +10,8 @@ public interface PropostaRepository extends Repository<Proposta> {
 
 	List<Proposta> findPropostasRejeitadas();
 	
+	List<Proposta> findPropostasAceitasPorRegiao(String regiao);
+
+	List<Proposta> findPropostasRejeitadasPorRegiao(String regiao);
+	
 }

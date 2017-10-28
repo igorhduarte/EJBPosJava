@@ -29,4 +29,18 @@ public class PropostaRepositoryImpl extends AbstractRepositoryImpl<Proposta> imp
 		return em.createQuery("from Proposta p where p.aceita == false ", Proposta.class).getResultList();
 	}
 	
+public List<Proposta> findPropostasAceitasPorRegiao(String regiao) {
+		
+		return em.createQuery("from Proposta p "
+				+ "left join p.pessoa.cidade.estado.regiao as regiao"
+				+ "where p.aceita == true and regiao == "+ regiao, Proposta.class).getResultList();
+	}
+	
+	public List<Proposta> findPropostasRejeitadasPorRegiao(String regiao) {
+		
+		return em.createQuery("from Proposta p "
+				+ "left join p.pessoa.cidade.estado.regiao as regiao"
+				+ "where p.aceita == false and regiao == "+ regiao, Proposta.class).getResultList();
+	}
+	
 }

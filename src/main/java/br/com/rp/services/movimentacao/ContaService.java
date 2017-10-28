@@ -12,6 +12,7 @@ import br.com.rp.domain.Cheque;
 import br.com.rp.domain.Conta;
 import br.com.rp.domain.Movimentacao;
 import br.com.rp.domain.TipoMovimentacao;
+import br.com.rp.domain.Usuario;
 import br.com.rp.repository.ContaRepository;
 import br.com.rp.repository.MovimentacaoRepository;
 import br.com.rp.repository.impl.AbstractRepositoryImpl;
@@ -38,7 +39,7 @@ public class ContaService extends AbstractRepositoryImpl<Conta> {
 	}
 
 	@Interceptors({LogInterceptor.class, HorarioMovimentacaoInterceptor.class})
-	public BigDecimal debitar(BigDecimal valor, Conta contaOrigem, String docPagamento) {
+	public BigDecimal debitar(Usuario usuarioLogado, BigDecimal valor, Conta contaOrigem, String docPagamento) {
 		
 		validarSaldo(valor, contaOrigem);
 		Movimentacao movimentacao = new Movimentacao();
@@ -58,7 +59,7 @@ public class ContaService extends AbstractRepositoryImpl<Conta> {
 	}
 
 	@Interceptors({LogInterceptor.class, HorarioMovimentacaoInterceptor.class})
-	public BigDecimal depositar(BigDecimal valor, Conta conta) {
+	public BigDecimal depositar(Usuario usuarioLogado, BigDecimal valor, Conta conta) {
 
 		Movimentacao movimentacao = new Movimentacao();
 		movimentacao.setTipoMovimentacao(TipoMovimentacao.DEPOSITO);
@@ -76,7 +77,7 @@ public class ContaService extends AbstractRepositoryImpl<Conta> {
 	}
 	
 	@Interceptors({LogInterceptor.class})
-	public void depositarCheque(Conta conta,Cheque cheque) {
+	public void depositarCheque(Usuario usuarioLogado, Conta conta,Cheque cheque) {
 
 		Movimentacao movimentacao = new Movimentacao();
 		Agendamento agendamento = new Agendamento();
@@ -90,7 +91,7 @@ public class ContaService extends AbstractRepositoryImpl<Conta> {
 		
 		agendamento.setData(cheque.getDataDeposito());
 		agendamento.setMovimentacao(save);
-		agendamentoService.criarAgendamento(agendamento);
+		agendamentoService.criarAgendamento(usuarioLogado,agendamento);
 		
 		BigDecimal saldoAtual = conta.getSaldo().add(cheque.getValor());
 		conta.setSaldo(saldoAtual);
@@ -99,7 +100,7 @@ public class ContaService extends AbstractRepositoryImpl<Conta> {
 	}
 	
 	@Interceptors({LogInterceptor.class})
-	public BigDecimal transferirInterno(BigDecimal valor, Conta contaOrigem, Conta contaDestino) {
+	public BigDecimal transferirInterno(Usuario usuarioLogado, BigDecimal valor, Conta contaOrigem, Conta contaDestino) {
 		
 		validarSaldo(valor, contaOrigem);
 
@@ -129,7 +130,7 @@ public class ContaService extends AbstractRepositoryImpl<Conta> {
 	}
 	
 	@Interceptors({LogInterceptor.class})
-	public BigDecimal transferirExterno(BigDecimal valor, Conta contaOrigem, Conta contaDestino, String codBanco, String cpfCnpjBeneficiario) {
+	public BigDecimal transferirExterno(Usuario usuarioLogado, BigDecimal valor, Conta contaOrigem, Conta contaDestino, String codBanco, String cpfCnpjBeneficiario) {
 
 		validarSaldo(valor, contaOrigem);
 		

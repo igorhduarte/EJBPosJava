@@ -30,7 +30,7 @@ public class IntegracaoService {
 	@EJB
 	private ContaService contaService;
 
-	@Interceptors({LogInterceptor.class, IntegracaoInterceptor.class})
+	@Interceptors({LogInterceptor.class, PermissaoGerenteOperacaoInterceptor.class})
 	public void enviarMovimentacoesBancoCentralManual(Usuario usuarioLogado) {
 
 		for (Movimentacao mov : movimentacaoService.getAll()) {
@@ -48,7 +48,7 @@ public class IntegracaoService {
 	}
 	
 
-	@Interceptors({LogInterceptor.class, IntegracaoInterceptor.class})
+	@Interceptors({LogInterceptor.class, PermissaoGerenteOperacaoInterceptor.class})
 	public void enviarContasSedeManual(Usuario usuarioLogado) {
 		for (Conta conta : contaService.getAll()) {
 			enviarMensagemDeIntegracao(conta.toString());
