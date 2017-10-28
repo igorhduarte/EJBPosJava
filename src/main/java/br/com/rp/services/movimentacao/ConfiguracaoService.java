@@ -22,6 +22,14 @@ public class ConfiguracaoService extends AbstractRepositoryImpl<Configuracao>  {
 		super(Configuracao.class);
 	}
 	
+	@Override
+	public Configuracao save(Configuracao config) {
+		
+		config.setId(1L);
+		
+		return super.save(config);
+	}
+	
 	@Interceptors({LogInterceptor.class,PermissaoGerenteSegurancaInterceptor.class})
 	public void alterarConfiguracao(Usuario usuarioLogado, Calendar horarioMinimoMovimentacao, Calendar horarioMaximoMovimentacao){
 		

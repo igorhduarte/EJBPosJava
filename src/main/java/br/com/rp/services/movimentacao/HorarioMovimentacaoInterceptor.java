@@ -24,14 +24,24 @@ public class HorarioMovimentacaoInterceptor {
 		int minuto = c.get(Calendar.MINUTE);
 		Configuracao configuracao = configuracaoRepository.findById(1L);
 		
-		if ((hora <= configuracao.getHorarioMinimoMovimentacao().get(Calendar.HOUR_OF_DAY)
-					&& minuto <= configuracao.getHorarioMinimoMovimentacao().get(Calendar.MINUTE))
-				&& (hora >= configuracao.getHorarioMaximoMovimentacao().get(Calendar.HOUR_OF_DAY) 
-					&& minuto >= configuracao.getHorarioMaximoMovimentacao().get(Calendar.MINUTE))) {
-			throw new RuntimeException("Horario invalido para movimentação");		 
-		} else {
+		if (configuracao != null) {
 			
-			return ic.proceed();
-		}
+			System.out.println(" HORARIO PERMITIDO MINIMO >>>>>>>>>> " + configuracao.getHorarioMinimoMovimentacao().getTime());
+			System.out.println(" HORARIO PERMITIDO MAXIMO >>>>>>>>>> " + configuracao.getHorarioMaximoMovimentacao().getTime());
+			
+			if ((hora >= configuracao.getHorarioMinimoMovimentacao().get(Calendar.HOUR_OF_DAY)
+						&& minuto >= configuracao.getHorarioMinimoMovimentacao().get(Calendar.MINUTE))
+					&& (hora <= configuracao.getHorarioMaximoMovimentacao().get(Calendar.HOUR_OF_DAY) 
+						&& minuto <= configuracao.getHorarioMaximoMovimentacao().get(Calendar.MINUTE))) {
+				
+				return ic.proceed();
+			} else {
+				
+				throw new RuntimeException("Horario invalido para movimentação");		 
+			}
+			
+		} 
+		
+		throw new RuntimeException("Configuração nao criada");
 	}
 }

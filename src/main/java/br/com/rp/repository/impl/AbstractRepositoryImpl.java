@@ -2,14 +2,12 @@ package br.com.rp.repository.impl;
 
 import java.util.List;
 
-import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import br.com.rp.domain.BaseEntity;
 import br.com.rp.repository.Repository;
 
-@Interceptors(LogInterceptor.class)
 public abstract class AbstractRepositoryImpl<T extends BaseEntity> implements Repository<T> {
 
 	@PersistenceContext(unitName = "vbankpu")

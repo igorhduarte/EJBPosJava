@@ -42,6 +42,7 @@ public class ContaService extends AbstractRepositoryImpl<Conta> {
 	public BigDecimal debitar(Usuario usuarioLogado, BigDecimal valor, Conta contaOrigem, String docPagamento) {
 		
 		validarSaldo(valor, contaOrigem);
+		
 		Movimentacao movimentacao = new Movimentacao();
 		movimentacao.setTipoMovimentacao(TipoMovimentacao.DEBITO);
 		movimentacao.setContaOrigem(contaOrigem);

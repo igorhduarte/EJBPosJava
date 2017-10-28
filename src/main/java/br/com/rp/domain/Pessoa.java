@@ -1,5 +1,6 @@
 package br.com.rp.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -22,6 +23,7 @@ public class Pessoa extends BaseEntity {
 	private String nome;
 	
 	@NotNull
+	@Column(unique = true)
 	private String cpf;
 	
 	@NotNull
