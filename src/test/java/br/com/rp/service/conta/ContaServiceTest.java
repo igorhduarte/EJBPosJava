@@ -13,7 +13,6 @@ import org.junit.Test;
 import br.com.rp.AbstractTest;
 import br.com.rp.domain.Cidade;
 import br.com.rp.domain.Conta;
-import br.com.rp.domain.ContaCorrente;
 import br.com.rp.domain.Endereco;
 import br.com.rp.domain.Estado;
 import br.com.rp.domain.Movimentacao;
@@ -25,7 +24,7 @@ import br.com.rp.services.usuario.EnderecoService;
 import br.com.rp.services.usuario.PessoaService;
 import br.com.rp.services.usuario.UsuarioService;
 
-public class ContaCorrenteServiceTest extends AbstractTest {
+public class ContaServiceTest extends AbstractTest {
 	
 	@EJB
 	private ContaService contaService;
@@ -69,7 +68,7 @@ public class ContaCorrenteServiceTest extends AbstractTest {
 		
 		Pessoa clienteSaved = pessoaService.save(pessoa);
 		
-		ContaCorrente conta = new ContaCorrente();
+		Conta conta = new Conta();
 		conta.setNumero("3334-3");
 		conta.setAgencia("333334-3");
 		conta.setSaldo(new BigDecimal("1000.00"));
@@ -193,7 +192,17 @@ public class ContaCorrenteServiceTest extends AbstractTest {
 		conta.setPessoa(clienteSaved);
 		
 		Conta contaOrigemSaved = contaService.save(conta);
-		Conta contaDestinoSaved = contaService.save(new Conta());
+		
+		Pessoa clienteDestino = new Pessoa();
+		clienteDestino.setCpf("00000000000");
+		clienteDestino.setEndereco(enderecoSaved);
+		clienteDestino.setNome("DESTINO");
+
+		Conta contaDestino = new Conta();
+		contaDestino.setAgencia("0000-0");
+		contaDestino.setNumero("0000000-0");
+		contaDestino.setPessoa(clienteDestino);
+		Conta contaDestinoSaved = contaService.save(contaDestino);
 		
 		BigDecimal actual = contaService.debitar(new BigDecimal("55.99"), contaOrigemSaved, contaDestinoSaved);
 		

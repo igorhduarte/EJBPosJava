@@ -12,6 +12,7 @@ import br.com.rp.domain.TipoUsuario;
 import br.com.rp.domain.Usuario;
 import br.com.rp.repository.PropostaRepository;
 import br.com.rp.repository.UsuarioRepository;
+import br.com.rp.repository.impl.LogInterceptor;
 
 @Stateless
 public class PropostaService {
@@ -28,18 +29,19 @@ public class PropostaService {
 		return propostaRepository.getAll();
 	}
 	
-	@Interceptors(PropostaInterceptor.class)
+	@Interceptors({LogInterceptor.class, PropostaInterceptor.class})
 	public List<Proposta> listarPropostasAceitas(Usuario usuarioLogado) {
 		
 		return propostaRepository.findPropostasAceitas();
 	}
 	
-	@Interceptors(PropostaInterceptor.class)
+	@Interceptors({LogInterceptor.class, PropostaInterceptor.class})
 	public List<Proposta> listarPropostasRejeitadas(Usuario usuarioLogado) {
 		
 		return propostaRepository.findPropostasRejeitadas();
 	}
 
+	@Interceptors(LogInterceptor.class)
 	public Proposta criarProposta(Usuario usuarioLogado, Proposta proposta) {
 
 		return propostaRepository.save(proposta);
@@ -49,7 +51,7 @@ public class PropostaService {
 		return UUID.randomUUID().toString().substring(0, 8);
 	}
 	
-	@Interceptors(PropostaInterceptor.class)
+	@Interceptors({LogInterceptor.class, PropostaInterceptor.class})
 	public void aceitarProposta(Usuario usuarioLogado, Proposta proposta) {
 
 		Usuario usuario = new Usuario();
@@ -62,21 +64,33 @@ public class PropostaService {
 			proposta.setAceita(Boolean.TRUE);
 			propostaRepository.save(proposta);
 			usuarioRepository.save(usuario);
+			
+			StringBuilder msg = new StringBuilder("Bem vindo ao VBank ");
+			msg.append(proposta.getPessoa().getNome() + ", sua proposta foi aceita!");
+			msg.append(" Seu login é " + usuario.getLogin());
+			msg.append(" Sua senha é " + usuario.getSenha());
+
+			PropostaEnvioEmail email = new PropostaEnvioEmail();
+			email.send(proposta.getPessoa().getEmail(), "Bem vindo ao VBank", msg.toString());
+			
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
 	}
 
-	public void rejeitarProposta(Proposta proposta) {
+	@Interceptors(LogInterceptor.class)
+	public void rejeitarProposta(Proposta proposta, String justificativa) {
 
-		Usuario usuario = new Usuario();
-//		usuario.setPessoa(proposta.getCliente());
+		StringBuilder msg = new StringBuilder("Sua proposta não foi aceita ");
+		msg.append(justificativa);
 
+		PropostaEnvioEmail email = new PropostaEnvioEmail();
+		email.send(proposta.getPessoa().getEmail(), "Bem vindo ao VBank", msg.toString());
+		
 		try {
 			proposta.setAceita(Boolean.FALSE);
 			propostaRepository.save(proposta);
-			usuarioRepository.save(usuario);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

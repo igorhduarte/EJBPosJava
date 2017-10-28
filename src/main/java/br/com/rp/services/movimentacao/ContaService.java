@@ -13,6 +13,7 @@ import br.com.rp.domain.TipoMovimentacao;
 import br.com.rp.repository.ContaRepository;
 import br.com.rp.repository.MovimentacaoRepository;
 import br.com.rp.repository.impl.AbstractRepositoryImpl;
+import br.com.rp.repository.impl.LogInterceptor;
 
 @Stateless
 public class ContaService extends AbstractRepositoryImpl<Conta> {
@@ -31,7 +32,7 @@ public class ContaService extends AbstractRepositoryImpl<Conta> {
 		return contaRepository.consultarSaldo(conta);
 	}
 
-	@Interceptors({HorarioMovimentacaoInterceptor.class, SaldoDisponivelInterceptor.class})
+	@Interceptors({LogInterceptor.class, HorarioMovimentacaoInterceptor.class, SaldoDisponivelInterceptor.class})
 	public BigDecimal debitar(BigDecimal valor, Conta contaOrigem, Conta contaDestino) {
 		
 		Movimentacao movimentacao = new Movimentacao();
@@ -54,7 +55,7 @@ public class ContaService extends AbstractRepositoryImpl<Conta> {
 		return saldoAtual;
 	}
 
-	@Interceptors(HorarioMovimentacaoInterceptor.class)
+	@Interceptors({LogInterceptor.class, HorarioMovimentacaoInterceptor.class})
 	public BigDecimal depositar(BigDecimal valor, Conta conta) {
 
 		Movimentacao movimentacao = new Movimentacao();
@@ -72,7 +73,7 @@ public class ContaService extends AbstractRepositoryImpl<Conta> {
 		return saldoAtual;
 	}
 	
-	@Interceptors(SaldoDisponivelInterceptor.class)
+	@Interceptors({LogInterceptor.class, SaldoDisponivelInterceptor.class})
 	public BigDecimal transferir(BigDecimal valor, Conta contaOrigem, Conta contaDestino) {
 
 		Movimentacao movimentacao = new Movimentacao();
