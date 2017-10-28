@@ -6,7 +6,7 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
-import br.com.rp.domain.ContaCorrente;
+import br.com.rp.domain.Conta;
 
 @Interceptor
 public class SaldoDisponivelInterceptor {
@@ -15,7 +15,7 @@ public class SaldoDisponivelInterceptor {
 	public Object saldoDisponivel(InvocationContext ic) throws Exception {
 
 		BigDecimal valor = (BigDecimal) ic.getParameters()[0];
-		ContaCorrente conta = (ContaCorrente) ic.getParameters()[1];
+		Conta conta = (Conta) ic.getParameters()[1];
 		
 		if (valor.compareTo(conta.getSaldo()) == 1) {
 			throw new RuntimeException("Não há saldo suficiente.");

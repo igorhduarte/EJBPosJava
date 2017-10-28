@@ -1,68 +1,35 @@
 package br.com.rp.services.proposta;
 
 import javax.annotation.Resource;
-import javax.ejb.MessageDriven;
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.DeliveryMode;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageListener;
-import javax.jms.MessageProducer;
-import javax.jms.Queue;
-import javax.jms.Session;
-import javax.jms.TextMessage;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.ejb.Stateless;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-//@MessageDriven
-public class PropostaEnvioEmail implements MessageListener {
+public class PropostaEnvioEmail {
 
-	@Resource
-	private ConnectionFactory connectionFactory;
-
-	@Resource(name = "PropostaEmailQueue")
-	private Queue propostaEmailQueue;
-
-	@PersistenceContext()
-	EntityManager entityManager;
-
-	@Override
-	public void onMessage(Message message) {
-        
-		TextMessage m = (TextMessage) message;  
-        
-		try {
-
-			respond(m.getText());
-		} catch (JMSException ex) {
-			
-			throw new RuntimeException(ex);
-		}
-	}
-
-	private void respond(String text) throws JMSException {
-
-		Connection connection = null;
-		Session session = null;
-
-		try {
-			connection = connectionFactory.createConnection();
-			connection.start();
-
-			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-
-			MessageProducer producer = session.createProducer(propostaEmailQueue);
-			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-
-			TextMessage message = session.createTextMessage(text);
-
-			producer.send(message);
-		} finally {
-			if (session != null)
-				session.close();
-			if (connection != null)
-				connection.close();
-		}
-	}
+	@Resource(name = "java:jboss/mail/gmail")
+    private Session session;
+ 
+    public void send(String addresses, String topic, String textMessage) {
+ 
+        try {
+ 
+            Message message = new MimeMessage(session);
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(addresses));
+            message.setSubject(topic);
+            message.setText(textMessage);
+ 
+            Transport.send(message);
+ 
+        } catch (MessagingException e) {
+            Logger.getLogger(PropostaEnvioEmail.class.getName()).log(Level.WARNING, "Erro ao enviar email para " + addresses, e);
+        }
+    }
+    
 }
