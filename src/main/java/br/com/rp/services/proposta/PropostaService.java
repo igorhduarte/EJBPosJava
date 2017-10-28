@@ -7,9 +7,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 
+import br.com.rp.domain.Conta;
 import br.com.rp.domain.Proposta;
 import br.com.rp.domain.TipoUsuario;
 import br.com.rp.domain.Usuario;
+import br.com.rp.repository.ContaRepository;
 import br.com.rp.repository.PropostaRepository;
 import br.com.rp.repository.UsuarioRepository;
 import br.com.rp.repository.impl.LogInterceptor;
@@ -22,6 +24,9 @@ public class PropostaService {
 
 	@EJB
 	private UsuarioRepository usuarioRepository;
+	
+	@EJB
+	private ContaRepository contaRepository;
 
 	@Interceptors(PropostaInterceptor.class)
 	public List<Proposta> listarPropostas(Usuario usuario) {
@@ -42,7 +47,7 @@ public class PropostaService {
 	}
 
 	@Interceptors(LogInterceptor.class)
-	public Proposta criarProposta(Usuario usuarioLogado, Proposta proposta) {
+	public Proposta criarProposta(Proposta proposta) {
 
 		return propostaRepository.save(proposta);
 	}
@@ -55,20 +60,29 @@ public class PropostaService {
 	public void aceitarProposta(Usuario usuarioLogado, Proposta proposta) {
 
 		Usuario usuario = new Usuario();
+		Conta conta = new Conta();
+		
 		usuario.setPessoa(proposta.getPessoa());
 		usuario.setTipoUsuario(TipoUsuario.CLIENTE);
 		usuario.setLogin(proposta.getPessoa().getCpf());
 		usuario.setSenha(geradorSenha());
+		
+		conta.setAgencia("2899");
+		conta.setNumero("0112020");
+		conta.setPessoa(proposta.getPessoa());
 
 		try {
 			proposta.setAceita(Boolean.TRUE);
 			propostaRepository.save(proposta);
 			usuarioRepository.save(usuario);
+			contaRepository.save(conta);
 			
 			StringBuilder msg = new StringBuilder("Bem vindo ao VBank ");
 			msg.append(proposta.getPessoa().getNome() + ", sua proposta foi aceita!");
 			msg.append(" Seu login é " + usuario.getLogin());
 			msg.append(" Sua senha é " + usuario.getSenha());
+			msg.append(" Agência: " + conta.getAgencia());
+			msg.append(" Conta: " + conta.getNumero());
 
 			PropostaEnvioEmail email = new PropostaEnvioEmail();
 			email.send(proposta.getPessoa().getEmail(), "Bem vindo ao VBank", msg.toString());

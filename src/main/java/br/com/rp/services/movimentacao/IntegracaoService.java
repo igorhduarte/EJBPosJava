@@ -31,17 +31,33 @@ public class IntegracaoService {
 	private ContaService contaService;
 
 	@Interceptors({LogInterceptor.class, IntegracaoInterceptor.class})
-	@Schedule(hour="22,0", minute="0/5")
-	public void enviarMovimentacoes(Usuario usuarioLogado) {
+	public void enviarMovimentacoesBancoCentralManual(Usuario usuarioLogado) {
 
 		for (Movimentacao mov : movimentacaoService.getAll()) {
 			enviarMensagemDeIntegracao(mov.toString());
 		}
 	}
+	
+	@Interceptors({LogInterceptor.class})
+	@Schedule(minute="0/5")
+	public void enviarMovimentacoesBancoCentral() {
+
+		for (Movimentacao mov : movimentacaoService.getAll()) {
+			enviarMensagemDeIntegracao(mov.toString());
+		}
+	}
+	
 
 	@Interceptors({LogInterceptor.class, IntegracaoInterceptor.class})
-	@Schedule(hour="22,0", minute="0/5")
-	public void enviarContas(Usuario usuarioLogado) {
+	public void enviarContasSedeManual(Usuario usuarioLogado) {
+		for (Conta conta : contaService.getAll()) {
+			enviarMensagemDeIntegracao(conta.toString());
+		}
+	}
+	
+	@Interceptors({LogInterceptor.class})
+	@Schedule(hour="22,0")
+	public void enviarContasSede() {
 		for (Conta conta : contaService.getAll()) {
 			enviarMensagemDeIntegracao(conta.toString());
 		}

@@ -7,6 +7,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 
+import br.com.rp.domain.Agendamento;
+import br.com.rp.domain.Cheque;
 import br.com.rp.domain.Conta;
 import br.com.rp.domain.Movimentacao;
 import br.com.rp.domain.TipoMovimentacao;
@@ -24,6 +26,9 @@ public class ContaService extends AbstractRepositoryImpl<Conta> {
 	@EJB
 	private MovimentacaoRepository movimentacaoRepository;
 	
+	@EJB
+	private AgendamentoService agendamentoService;
+	
 	public ContaService() {
 		super(Conta.class);
 	}
@@ -32,25 +37,22 @@ public class ContaService extends AbstractRepositoryImpl<Conta> {
 		return contaRepository.consultarSaldo(conta);
 	}
 
-	@Interceptors({LogInterceptor.class, HorarioMovimentacaoInterceptor.class, SaldoDisponivelInterceptor.class})
-	public BigDecimal debitar(BigDecimal valor, Conta contaOrigem, Conta contaDestino) {
+	@Interceptors({LogInterceptor.class, HorarioMovimentacaoInterceptor.class})
+	public BigDecimal debitar(BigDecimal valor, Conta contaOrigem, String docPagamento) {
 		
+		validarSaldo(valor, contaOrigem);
 		Movimentacao movimentacao = new Movimentacao();
 		movimentacao.setTipoMovimentacao(TipoMovimentacao.DEBITO);
 		movimentacao.setContaOrigem(contaOrigem);
-		movimentacao.setContaDestino(contaDestino);
 		movimentacao.setData(new Date());
 		movimentacao.setValor(valor);
+		movimentacao.setDocPagamento(docPagamento);
 
 		movimentacaoRepository.save(movimentacao);
 		
 		BigDecimal saldoAtual = contaOrigem.getSaldo().subtract(valor);
 		contaOrigem.setSaldo(saldoAtual);
 		contaRepository.save(contaOrigem);
-		
-		contaDestino.getSaldo().add(valor);
-		contaDestino.setSaldo(saldoAtual);
-		contaRepository.save(contaDestino);
 		
 		return saldoAtual;
 	}
@@ -73,8 +75,33 @@ public class ContaService extends AbstractRepositoryImpl<Conta> {
 		return saldoAtual;
 	}
 	
-	@Interceptors({LogInterceptor.class, SaldoDisponivelInterceptor.class})
-	public BigDecimal transferir(BigDecimal valor, Conta contaOrigem, Conta contaDestino) {
+	@Interceptors({LogInterceptor.class})
+	public void depositarCheque(Conta conta,Cheque cheque) {
+
+		Movimentacao movimentacao = new Movimentacao();
+		Agendamento agendamento = new Agendamento();
+		movimentacao.setTipoMovimentacao(TipoMovimentacao.DEPOSITO_CHEQUE);
+		movimentacao.setContaDestino(conta);
+		movimentacao.setData(new Date());
+		movimentacao.setCheque(cheque);
+		movimentacao.setValor(cheque.getValor());
+		
+		Movimentacao save = movimentacaoRepository.save(movimentacao);
+		
+		agendamento.setData(cheque.getDataDeposito());
+		agendamento.setMovimentacao(save);
+		agendamentoService.criarAgendamento(agendamento);
+		
+		BigDecimal saldoAtual = conta.getSaldo().add(cheque.getValor());
+		conta.setSaldo(saldoAtual);
+		contaRepository.save(conta);
+		
+	}
+	
+	@Interceptors({LogInterceptor.class})
+	public BigDecimal transferirInterno(BigDecimal valor, Conta contaOrigem, Conta contaDestino) {
+		
+		validarSaldo(valor, contaOrigem);
 
 		Movimentacao movimentacao = new Movimentacao();
 		movimentacao.setTipoMovimentacao(TipoMovimentacao.TRANSFERENCIA_DEBITO);
@@ -91,6 +118,36 @@ public class ContaService extends AbstractRepositoryImpl<Conta> {
 		
 		contaRepository.save(contaOrigem);
 		contaRepository.save(contaDestino);
+		
+		return saldoAtual;
+	}
+
+	private void validarSaldo(BigDecimal valor, Conta contaOrigem) {
+		if (valor.compareTo(contaOrigem.getSaldo()) == 1) {
+			throw new RuntimeException("Não há saldo suficiente.");
+		}
+	}
+	
+	@Interceptors({LogInterceptor.class})
+	public BigDecimal transferirExterno(BigDecimal valor, Conta contaOrigem, Conta contaDestino, String codBanco, String cpfCnpjBeneficiario) {
+
+		validarSaldo(valor, contaOrigem);
+		
+		Movimentacao movimentacao = new Movimentacao();
+		movimentacao.setTipoMovimentacao(TipoMovimentacao.TRANSFERENCIA_DEBITO);
+		movimentacao.setContaOrigem(contaOrigem);
+		movimentacao.setContaDestino(contaDestino);
+		movimentacao.setCodBanco(codBanco);
+		movimentacao.setCpfCnpjBeneficiario(cpfCnpjBeneficiario);
+		movimentacao.setData(new Date());
+		movimentacao.setValor(valor);
+
+		movimentacaoRepository.save(movimentacao);
+
+		BigDecimal saldoAtual = contaOrigem.getSaldo().subtract(valor);
+		contaOrigem.setSaldo(saldoAtual);
+		
+		contaRepository.save(contaOrigem);
 		
 		return saldoAtual;
 	}

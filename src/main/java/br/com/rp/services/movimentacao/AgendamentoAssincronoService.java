@@ -49,7 +49,8 @@ public class AgendamentoAssincronoService extends AbstractRepositoryImpl<Agendam
 			}
 			
 			if (mov.getTipoMovimentacao().equals(TipoMovimentacao.DEPOSITO) 
-					|| mov.getTipoMovimentacao().equals(TipoMovimentacao.TRANSFERENCIA_DEPOSITO)) {
+					|| mov.getTipoMovimentacao().equals(TipoMovimentacao.TRANSFERENCIA_DEPOSITO)
+					|| mov.getTipoMovimentacao().equals(TipoMovimentacao.DEPOSITO_CHEQUE)) {
 
 				mov.getContaDestino().setSaldo(mov.getContaDestino().getSaldo().add(mov.getValor()));
 				contaRepository.save(mov.getContaDestino());
